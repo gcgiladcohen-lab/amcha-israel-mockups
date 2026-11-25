@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>עמך ישראל, מוקאפים לבחירה</title>
+<style>
+:root{--forest:#1f2a1d;--forest-2:#2c3a28;--sand:#e8dcc2;--linen:#f6f0e4;--clay:#b4532d;--muted:#5f604f;--line:#d7ccb4;--stage:#e9e2d2}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:clip}
+body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--stage);color:var(--forest);line-height:1.4;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.bar{position:sticky;top:0;z-index:5;background:var(--linen);border-bottom:1px solid var(--line);padding:14px clamp(14px,3vw,32px) 12px}
+.bar__in{max-width:1280px;margin:0 auto;display:grid;gap:10px}
+.row1{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+h1{font-size:19px;font-weight:700}
+.seg{display:inline-flex;background:var(--sand);border-radius:999px;padding:4px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:9px 22px;font-weight:600;font-size:15px;min-height:40px}
+.seg button[aria-pressed=true]{background:var(--forest);color:var(--linen)}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:1.5px solid var(--line);background:#fffdf8;border-radius:10px;padding:9px 14px;font-size:15px;font-weight:600;min-height:42px;white-space:nowrap}
+.tabs button b{font-weight:800;margin-inline-end:6px;color:var(--clay)}
+.tabs button[aria-pressed=true]{background:var(--forest);border-color:var(--forest);color:var(--linen)}
+.tabs button[aria-pressed=true] b{color:var(--sand)}
+.tabs.screens button{border-radius:999px;font-weight:500;font-size:14px;padding:7px 14px;min-height:38px}
+.tabs.screens button[aria-pressed=true]{background:var(--clay);border-color:var(--clay);color:#fff}
+:focus-visible{outline:3px solid var(--clay);outline-offset:2px}
+main{max-width:1280px;margin:0 auto;padding:clamp(16px,3vw,32px) clamp(14px,3vw,32px) 80px}
+.cap{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.cap h2{font-size:clamp(20px,2.4vw,28px);font-weight:800}
+.cap p{color:var(--muted);font-size:15px}
+.nav{display:flex;gap:8px}
+.nav button{border:1.5px solid var(--forest);background:transparent;border-radius:999px;padding:8px 18px;font-weight:600;font-size:14px;min-height:40px}
+.nav button:disabled{opacity:.35;cursor:default}
+.stage{display:grid;justify-items:center;gap:28px}
+.shot{background:#fff;overflow:hidden;box-shadow:0 1px 0 rgba(31,42,29,.08),0 24px 60px -30px rgba(31,42,29,.45)}
+.shot img{display:block;width:100%;height:auto}
+.is-desktop .shot{width:100%;max-width:1200px;border-radius:12px;border:1px solid var(--line)}
+.is-mobile .shot{width:min(390px,100%);border-radius:34px;border:8px solid var(--forest)}
+.grid{display:grid;gap:24px;width:100%}
+.is-mobile .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.is-desktop .grid{grid-template-columns:repeat(auto-fill,minmax(420px,1fr))}
+.grid figure{display:grid;gap:10px;align-content:start}
+.grid figcaption button{border:0;background:transparent;font-weight:700;font-size:16px;text-decoration:underline;text-underline-offset:4px;padding:6px 0}
+.grid .shot{width:100%;max-width:none}
+.is-mobile .grid .shot{border-width:5px;border-radius:24px}
+.note{margin-top:40px;color:var(--muted);font-size:14px;max-width:70ch}
+@media (max-width:600px){h1{font-size:17px}.cap .nav{width:100%}.cap .nav button{flex:1}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar__in">
+  <div class="row1">
+    <h1>עמך ישראל, מוקאפים לבחירה</h1>
+    <div class="seg" role="group" aria-label="מכשיר">
+      <button type="button" data-dev="mobile">טלפון</button>
+      <button type="button" data-dev="desktop">מחשב</button>
+    </div>
+  </div>
+  <div class="tabs options" role="group" aria-label="כיוון עיצובי"></div>
+  <div class="tabs screens" role="group" aria-label="מסך"></div>
+</div></header>
+<main>
+  <div class="cap"><div><h2 id="title"></h2><p id="sub"></p></div>
+    <div class="nav"><button type="button" id="prev">המסך הקודם</button><button type="button" id="next">המסך הבא</button></div></div>
+  <div class="stage" id="stage"></div>
+  <p class="note">הצילומים נלקחו מדפים חיים, במחשב (1440 על 900) ובאייפון 14. בכיוונים א, ב ו-ג מופיעה עדיין התמונה מהדף הקיים, כמציינת מקום. פרטי הטופס בצילומים הם פרטי בדיקה.</p>
+</main>
+<script>
+const META = {"a-desktop-1-hero":[1440,900],"a-desktop-2-choices":[1440,470],"a-desktop-3-form":[1440,1207],"a-desktop-4-donate":[1440,1207],"a-desktop-5-errors":[1440,1323],"a-desktop-6-thanks":[1440,764],"a-desktop-7-full":[1440,1754],"b-desktop-1-hero":[1440,900],"b-desktop-2-choices":[1440,385],"b-desktop-3-form":[1440,1119],"b-desktop-4-donate":[1440,1115],"b-desktop-5-errors":[1440,1231],"b-desktop-6-thanks":[1440,615],"b-desktop-7-full":[1440,1604],"c-desktop-1-hero":[1440,900],"c-desktop-2-choices":[1440,789],"c-desktop-3-form":[1440,1567],"c-desktop-4-donate":[1440,1567],"c-desktop-5-errors":[1440,1683],"c-desktop-6-thanks":[1440,1098],"c-desktop-7-full":[1440,2088],"d-desktop-1-hero":[1440,900],"d-desktop-2-choices":[1440,497],"d-desktop-3-form":[1440,1247],"d-desktop-4-donate":[1440,1247],"d-desktop-5-errors":[1440,1363],"d-desktop-6-thanks":[1440,868],"d-desktop-7-full":[1440,2546],"e-desktop-1-hero":[1440,900],"e-desktop-2-choices":[1440,601],"e-desktop-3-form":[1440,1324],"e-desktop-4-donate":[1440,1324],"e-desktop-5-errors":[1440,1440],"e-desktop-6-thanks":[1440,917],"e-desktop-7-full":[1440,2021],"f-desktop-1-hero":[1440,900],"f-desktop-2-choices":[1440,660],"f-desktop-3-form":[1440,1380],"f-desktop-4-donate":[1440,1380],"f-desktop-5-errors":[1440,1496],"f-desktop-6-thanks":[1440,969],"f-desktop-7-full":[1440,2103],"a-mobile-1-hero":[1170,1992],"a-mobile-2-choices":[1170,1479],"a-mobile-3-form":[1170,4203],"a-mobile-4-donate":[1170,4380],"a-mobile-5-errors":[1170,4815],"a-mobile-6-thanks":[1170,2121],"a-mobile-7-full":[1170,4383],"b-mobile-1-hero":[1170,1992],"b-mobile-2-choices":[1170,1167],"b-mobile-3-form":[1170,3948],"b-mobile-4-donate":[1170,4116],"b-mobile-5-errors":[1170,4551],"b-mobile-6-thanks":[1170,1659],"b-mobile-7-full":[1170,3921],"c-mobile-1-hero":[1170,1992],"c-mobile-2-choices":[1170,1458],"c-mobile-3-form":[1170,4269],"c-mobile-4-donate":[1170,4443],"c-mobile-5-errors":[1170,4878],"c-mobile-6-thanks":[1170,2073],"c-mobile-7-full":[1170,4338],"d-mobile-1-hero":[1170,1992],"d-mobile-2-choices":[1170,1479],"d-mobile-3-form":[1170,4218],"d-mobile-4-donate":[1170,4395],"d-mobile-5-errors":[1170,4830],"d-mobile-6-thanks":[1170,2301],"d-mobile-7-full":[1170,5940],"e-mobile-1-hero":[1170,1992],"e-mobile-2-choices":[1170,1344],"e-mobile-3-form":[1170,4170],"e-mobile-4-donate":[1170,4353],"e-mobile-5-errors":[1170,4788],"e-mobile-6-thanks":[1170,2091],"e-mobile-7-full":[1170,4743],"f-mobile-1-hero":[1170,1992],"f-mobile-2-choices":[1170,1362],"f-mobile-3-form":[1170,4161],"f-mobile-4-donate":[1170,4338],"f-mobile-5-errors":[1170,4773],"f-mobile-6-thanks":[1170,2193],"f-mobile-7-full":[1170,4935]};
+const OPTS = [['a','א','הדרך','התמונה היא הדף, והכותרת יושבת עליה.'],['b','ב','כרזה','כותרת ענקית על רקע בהיר, והתמונה לצידה.'],['c','ג','אדמה','דף כהה ושקט, והתמונה כרצועת אופק.'],['d','ד','הנבחרת','האנשים האמיתיים של המפלגה, והבחירה כפתקי הצבעה.'],['e','ה','הצהרה','תמונה בגוון אחד, כותרת במרכז, והטופס עולה כגיליון בהיר.'],['f','ו','המסלול','קו אחד מוביל מהכותרת, דרך הבחירה והטופס, עד התודה.'],['all','','כל הכיוונים יחד','אותו מסך בכל ששת הכיוונים. לחיצה על שם פותחת את הכיוון.']];
+const SCREENS = [['1-hero','פתיחה'],['2-choices','בחירה'],['3-form','טופס התנדבות'],['4-donate','טופס תרומה'],['5-errors','הודעות שגיאה'],['6-thanks','הודעת תודה'],['7-full','הדף המלא']];
+const st = { dev: matchMedia('(max-width:700px)').matches ? 'mobile' : 'desktop', opt: 'd', scr: 0 };
+const h = location.hash.slice(1).split('/');
+if (['mobile','desktop'].includes(h[0])) st.dev = h[0];
+if (OPTS.some(o => o[0] === h[1])) st.opt = h[1];
+if (h[2] >= 1 && h[2] <= SCREENS.length) st.scr = h[2] - 1;
+const $ = s => document.querySelector(s);
+const mk = (t, a = {}, txt) => { const e = document.createElement(t); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+const optsEl = $('.options'), scrEl = $('.screens'), stage = $('#stage');
+OPTS.forEach(o => { const b = mk('button', { type: 'button', 'data-opt': o[0] }); if (o[1]) b.append(mk('b', {}, o[1])); b.append(o[2]); b.onclick = () => set({ opt: o[0] }); optsEl.append(b); });
+SCREENS.forEach((s, i) => { const b = mk('button', { type: 'button', 'data-scr': i }, s[1]); b.onclick = () => set({ scr: i }); scrEl.append(b); });
+document.querySelectorAll('[data-dev]').forEach(b => b.onclick = () => set({ dev: b.dataset.dev }));
+$('#prev').onclick = () => set({ scr: st.scr - 1 }); $('#next').onclick = () => set({ scr: st.scr + 1 });
+addEventListener('keydown', e => { if (e.target.closest('input,textarea')) return; if (e.key === 'ArrowLeft') set({ scr: st.scr + 1 }); if (e.key === 'ArrowRight') set({ scr: st.scr - 1 }); });
+function shot(o) {
+  const name = o[0] + '-' + st.dev + '-' + SCREENS[st.scr][0], m = META[name] || [1, 1];
+  const d = mk('div', { class: 'shot' });
+  d.append(mk('img', { src: 'shots/' + name + '.webp', width: m[0], height: m[1], loading: 'lazy', decoding: 'async', alt: 'כיוון ' + (o[1] || '') + ' ' + o[2] + ', ' + SCREENS[st.scr][1] + ', ' + (st.dev === 'mobile' ? 'בטלפון' : 'במחשב') }));
+  return d;
+}
+function set(p) {
+  Object.assign(st, p); st.scr = Math.max(0, Math.min(SCREENS.length - 1, st.scr));
+  document.body.className = 'is-' + st.dev;
+  document.querySelectorAll('[data-dev]').forEach(b => b.setAttribute('aria-pressed', b.dataset.dev === st.dev));
+  optsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.opt === st.opt));
+  scrEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.scr === st.scr));
+  $('#prev').disabled = st.scr === 0; $('#next').disabled = st.scr === SCREENS.length - 1;
+  const o = OPTS.find(x => x[0] === st.opt);
+  $('#title').textContent = (o[1] ? 'כיוון ' + o[1] + ': ' : '') + o[2] + ', ' + SCREENS[st.scr][1];
+  $('#sub').textContent = o[3];
+  stage.replaceChildren();
+  if (st.opt === 'all') {
+    const g = mk('div', { class: 'grid' });
+    OPTS.slice(0, 6).forEach(x => { const f = mk('figure'), c = mk('figcaption'), b = mk('button', { type: 'button' }, 'כיוון ' + x[1] + ': ' + x[2]); b.onclick = () => set({ opt: x[0] }); c.append(b); f.append(c, shot(x)); g.append(f); });
+    stage.append(g);
+  } else stage.append(shot(o));
+  history.replaceState(null, '', '#' + st.dev + '/' + st.opt + '/' + (st.scr + 1));
+  document.querySelectorAll('.tabs [aria-pressed=true]').forEach(b => b.scrollIntoView({ block: 'nearest', inline: 'nearest' }));
+  if (p.opt || p.scr != null) scrollTo({ top: 0 });
+}
+set({});
+</script>
+</body>
+</html>
